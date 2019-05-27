@@ -1,0 +1,40 @@
+location = input()
+#입력값:위치
+
+#반환값:최고기온= high ,최저기온=low ,미세먼지 농도=dust, 초미세먼지=fine dust,
+
+class weather_health:
+    
+    def temp(self,high_temp,low_temp):
+
+        s1=1+0.16*(high_temp-low_temp)
+
+        return s1
+
+    def fine_dust(self,fine_dust):
+
+        s2=1+0.016*(fine_dust)
+
+        return s2
+
+    def dust(self,dust):
+
+        s3=1+0.011*(dust)
+
+        return s3
+#자외선 지수가 UV_ray가 입력된다
+    def UV(self,UV_ray):
+        if UV_ray<=2:
+            return '햇빛위험도 낮음'
+        if 2<UV_ray<=5:
+            return '60분 이상 햇빛 노출 자제'
+        if 5<UV_ray<=7:
+            return '50분 이상 햇빛 노출 자제'
+        if 7<UV_ray<=10:
+            return '40분 이상 햇빛 노출 자제'
+        if 10<UV_ray:
+            return '30분 이상 햇빛 노출 자제'
+
+print('오늘 공기는 ',(s1*s2*s3-1)100,'% 더 심각하네요!')
+
+#각 함수의 출력값은 위험도를 비율로 나타내며 각 세함수의 곱이 최종 심각도로 정의된다 
