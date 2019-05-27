@@ -1,0 +1,30 @@
+from urllib.request import urlopen, Request
+import urllib
+import bs4
+
+location = input()
+enc_location = urllib.parse.quote(location + '+날씨')
+enc_particle = urllib.parse.quote(location + '+미세먼지')
+enc_fparticle = urllib.parse.quote(location + '+초미세먼지')
+url1 = 'https://search.naver.com/search.naver?ie=utf8&query='+ enc_location
+url2 = 'https://search.naver.com/search.naver?ie=utf8&query='+ enc_particle
+url3 = 'https://search.naver.com/search.naver?ie=utf8&query='+ enc_fparticle
+
+req1 = Request(url1)
+req2 = Request(url2)
+req3 = Request(url3)
+
+page1 = urlopen(req1)
+page2 = urlopen(req2)
+page3 = urlopen(req3)
+html1 = page1.read()
+html2 = page2.read()
+html3 = page3.read()
+
+soup1 = bs4.BeautifulSoup(html1,'html5lib')
+soup2 = bs4.BeautifulSoup(html2,'html5lib')
+soup3 = bs4.BeautifulSoup(html3,'html5lib')
+
+print('현재 ' + location + ' 날씨는 ' + soup1.find('p', class_='info_temperature').find('span', class_='todaytemp').text + '도 입니다.')
+print('현재 ' + location + ' 미세먼지 농도는 ' + soup2.find('span', class_='figure').find('em', class_='main_figure').text + ' 입니다.')
+print('현재 ' + location + ' 초미세먼지 농도는 ' + soup3.find('span', class_='figure').find('em', class_='main_figure').text + ' 입니다.')
